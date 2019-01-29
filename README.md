@@ -1,6 +1,8 @@
 # PictureEnlargement
 crops picture to multiple sheets of paper.
 
+Program relies on 2 sided printing. (Printer must have 'CanDuplex = true' 2 sided printing)
+
 Program crops picture from 9 to 64 pages of paper.
 run program then select picture then choose picture size.
 check 'This Pc.Pictures' for directory after selecting picture size "C:\Users\David\Pictures\CroppedPictures\"
