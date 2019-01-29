@@ -44,9 +44,7 @@ namespace PictureEnlargement
 
         private System.Windows.Forms.Label infoLbl;
         
-
-        private System.Windows.Forms.PictureBox pictureBox1;
-
+                
         public Form1()
         {
             InitializeComponent();            
@@ -306,7 +304,7 @@ namespace PictureEnlargement
                 pictureBox1.Image = curImage;
 
                 graphics = System.Drawing.Graphics.FromImage(pictureBox1.Image);
-                PrintOperations.Form1.drawImageRectangles(graphics, thedim);
+                PictureEnlargement.Form1.drawImageRectangles(graphics, thedim);
 
             }
 

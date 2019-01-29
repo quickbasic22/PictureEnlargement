@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.laBtn = new System.Windows.Forms.Button();
             this.meBtn = new System.Windows.Forms.Button();
@@ -61,6 +62,13 @@
             // 
             // laBtn
             // 
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.ClientSize = new System.Drawing.Size(1000, 800);
+            this.pictureBox1.PointToClient(new System.Drawing.Point(300, 300));
+            this.pictureBox1.Visible = false;
+            this.Controls.Add(this.pictureBox1);
+           
+            
             this.laBtn.Location = new System.Drawing.Point(447, 147);
             this.laBtn.Name = "laBtn";
             this.laBtn.Size = new System.Drawing.Size(164, 76);
@@ -210,6 +218,7 @@
         private System.Windows.Forms.ToolStripMenuItem miMedium;
         private System.Windows.Forms.ToolStripMenuItem miLarge;
         private System.Drawing.Printing.PrintDocument pd;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 
