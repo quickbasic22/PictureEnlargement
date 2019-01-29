@@ -73,7 +73,7 @@
             this.laBtn.Name = "laBtn";
             this.laBtn.Size = new System.Drawing.Size(164, 76);
             this.laBtn.TabIndex = 2;
-            this.laBtn.Text = "Large picture 64 pages";
+            this.laBtn.Text = "Large picture 36 pages";
             this.laBtn.UseVisualStyleBackColor = true;
             this.laBtn.Click += new System.EventHandler(this.laBtn_Click);
             // 
