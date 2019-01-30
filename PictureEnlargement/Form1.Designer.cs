@@ -1,4 +1,6 @@
-﻿namespace PictureEnlargement
+﻿using System.Windows.Forms;
+
+namespace PictureEnlargement
 {
     partial class Form1
     {
@@ -56,11 +58,36 @@
             // 
             // previewDlg
             // 
+            pageSettings = new System.Drawing.Printing.PageSettings();
+            pageSettings.Margins.Bottom = 0;
+            pageSettings.Margins.Left = 0;
+            pageSettings.Margins.Right = 0;
+            pageSettings.Margins.Top = 0;
+            pageSettings.Landscape = true;
 
-            this.printDlg.PrinterSettings = this.pageSettings.PrinterSettings.DefaultPageSettings.PrinterSettings;
-            this.printDoc.PrinterSettings = this.pageSettings.PrinterSettings.DefaultPageSettings.PrinterSettings;
+            printDlg.PrinterSettings = printerSettings;
+            printDoc.DocumentName = "Picture Upsize Print";
+            printDoc.DefaultPageSettings = pageSettings;
+            printDoc.DefaultPageSettings.PrinterSettings = printerSettings;
+
+            setupDlg.AllowMargins = true;
+            setupDlg.AllowOrientation = true;
+            setupDlg.AllowPaper = true;
+            setupDlg.AllowPrinter = true;
+            setupDlg.Document = printDoc;
 
 
+
+            printDoc.DefaultPageSettings = setupDlg.PageSettings;
+            printDoc.PrinterSettings = setupDlg.PrinterSettings;
+            printDlg.Document = printDoc;
+
+            previewDlg.Name = "Print Picture Upsize Preview";
+            previewDlg.Document = printDoc;
+            previewDlg.WindowState = FormWindowState.Normal;
+            previewDlg.UseAntiAlias = true;
+
+          
             this.previewDlg.AutoScrollMargin = new System.Drawing.Size(0, 0);
             this.previewDlg.AutoScrollMinSize = new System.Drawing.Size(0, 0);
             this.previewDlg.ClientSize = new System.Drawing.Size(400, 300);
