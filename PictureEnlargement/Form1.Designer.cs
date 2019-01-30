@@ -28,33 +28,66 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            this.previewDlg = new System.Windows.Forms.PrintPreviewDialog();
+            this.setupDlg = new System.Windows.Forms.PageSetupDialog();
+            this.printDoc = new System.Drawing.Printing.PrintDocument();
+            this.printDlg = new System.Windows.Forms.PrintDialog();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.laBtn = new System.Windows.Forms.Button();
             this.meBtn = new System.Windows.Forms.Button();
             this.smBtn = new System.Windows.Forms.Button();
-            this.mainMenu = new System.Windows.Forms.MenuStrip();
-            this.menuPrintPicture = new System.Windows.Forms.ToolStripMenuItem();
-            this.miOpen = new System.Windows.Forms.ToolStripMenuItem();
-            this.miPrintPreview = new System.Windows.Forms.ToolStripMenuItem();
-            this.miPrint = new System.Windows.Forms.ToolStripMenuItem();
-            this.miPageSetup = new System.Windows.Forms.ToolStripMenuItem();
-            this.miExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuSize = new System.Windows.Forms.ToolStripMenuItem();
-            this.miSmall = new System.Windows.Forms.ToolStripMenuItem();
-            this.miMedium = new System.Windows.Forms.ToolStripMenuItem();
-            this.miLarge = new System.Windows.Forms.ToolStripMenuItem();
-            this.pd = new System.Drawing.Printing.PrintDocument();
+            this.mainMenu = new System.Windows.Forms.MainMenu(this.components);
+            this.menuPrintPicture = new System.Windows.Forms.MenuItem();
+            this.miOpen = new System.Windows.Forms.MenuItem();
+            this.miPageSetup = new System.Windows.Forms.MenuItem();
+            this.miPrint = new System.Windows.Forms.MenuItem();
+            this.miPrintPreview = new System.Windows.Forms.MenuItem();
+            this.miExit = new System.Windows.Forms.MenuItem();
+            this.menuSize = new System.Windows.Forms.MenuItem();
+            this.miSmall = new System.Windows.Forms.MenuItem();
+            this.miMedium = new System.Windows.Forms.MenuItem();
+            this.miLarge = new System.Windows.Forms.MenuItem();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
-            this.mainMenu.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // previewDlg
+            // 
+
+            this.printDlg.PrinterSettings = this.pageSettings.PrinterSettings.DefaultPageSettings.PrinterSettings;
+            this.printDoc.PrinterSettings = this.pageSettings.PrinterSettings.DefaultPageSettings.PrinterSettings;
+
+
+            this.previewDlg.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.previewDlg.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.previewDlg.ClientSize = new System.Drawing.Size(400, 300);
+            this.previewDlg.Enabled = true;
+            this.previewDlg.Icon = ((System.Drawing.Icon)(resources.GetObject("previewDlg.Icon")));
+            this.previewDlg.Name = "previewDlg";
+            this.previewDlg.Visible = false;
+            // 
+            // printDoc
+            // 
+            this.printDoc.DocumentName = "Picture Upsize Print";
+            this.printDoc.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDoc_PrintPage);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(1000, 800);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.laBtn);
             this.panel1.Controls.Add(this.meBtn);
             this.panel1.Controls.Add(this.smBtn);
-            this.panel1.Controls.Add(this.mainMenu);
             this.panel1.Location = new System.Drawing.Point(42, 34);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(718, 371);
@@ -62,13 +95,6 @@
             // 
             // laBtn
             // 
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.ClientSize = new System.Drawing.Size(1000, 800);
-            this.pictureBox1.PointToClient(new System.Drawing.Point(300, 300));
-            this.pictureBox1.Visible = false;
-            this.Controls.Add(this.pictureBox1);
-           
-            
             this.laBtn.Location = new System.Drawing.Point(447, 147);
             this.laBtn.Name = "laBtn";
             this.laBtn.Size = new System.Drawing.Size(164, 76);
@@ -99,103 +125,91 @@
             // 
             // mainMenu
             // 
-            this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mainMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuPrintPicture,
             this.menuSize});
-            this.mainMenu.Location = new System.Drawing.Point(0, 0);
-            this.mainMenu.Name = "mainMenu";
-            this.mainMenu.Size = new System.Drawing.Size(718, 24);
-            this.mainMenu.TabIndex = 3;
-            this.mainMenu.Text = "menuStrip1";
             // 
             // menuPrintPicture
             // 
-            this.menuPrintPicture.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuPrintPicture.Index = 0;
+            this.menuPrintPicture.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.miOpen,
-            this.miPrintPreview,
-            this.miPrint,
             this.miPageSetup,
+            this.miPrint,
+            this.miPrintPreview,
             this.miExit});
-            this.menuPrintPicture.Name = "menuPrintPicture";
-            this.menuPrintPicture.Size = new System.Drawing.Size(84, 20);
             this.menuPrintPicture.Text = "Print Picture";
             // 
             // miOpen
             // 
-            this.miOpen.Name = "miOpen";
-            this.miOpen.Size = new System.Drawing.Size(143, 22);
+            this.miOpen.Index = 0;
             this.miOpen.Text = "O&pen";
-            // 
-            // miPrintPreview
-            // 
-            this.miPrintPreview.Name = "miPrintPreview";
-            this.miPrintPreview.Size = new System.Drawing.Size(143, 22);
-            this.miPrintPreview.Text = "P&rint Preview";
-            // 
-            // miPrint
-            // 
-            this.miPrint.Name = "miPrint";
-            this.miPrint.Size = new System.Drawing.Size(143, 22);
-            this.miPrint.Text = "Pr&int";
+            this.miOpen.Click += new System.EventHandler(this.miOpen_Click);
             // 
             // miPageSetup
             // 
-            this.miPageSetup.Name = "miPageSetup";
-            this.miPageSetup.Size = new System.Drawing.Size(143, 22);
+            this.miPageSetup.Index = 1;
             this.miPageSetup.Text = "Pa&ge setup";
+            this.miPageSetup.Click += new System.EventHandler(this.miPageSetup_Click);
+            // 
+            // miPrint
+            // 
+            this.miPrint.Index = 2;
+            this.miPrint.Text = "Pr&int";
+            this.miPrint.Click += new System.EventHandler(this.miPrint_Click);
+            // 
+            // miPrintPreview
+            // 
+            this.miPrintPreview.Index = 3;
+            this.miPrintPreview.Text = "P&rint Preview";
+            this.miPrintPreview.Click += new System.EventHandler(this.miPrintPreview_Click);
             // 
             // miExit
             // 
-            this.miExit.Name = "miExit";
-            this.miExit.Size = new System.Drawing.Size(143, 22);
+            this.miExit.Index = 4;
             this.miExit.Text = "E&xit";
+            this.miExit.Click += new System.EventHandler(this.miExit_Click);
             // 
             // menuSize
             // 
-            this.menuSize.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuSize.Index = 1;
+            this.menuSize.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.miSmall,
             this.miMedium,
             this.miLarge});
-            this.menuSize.Name = "menuSize";
-            this.menuSize.Size = new System.Drawing.Size(79, 20);
             this.menuSize.Text = "Picture Size";
             // 
             // miSmall
             // 
-            this.miSmall.Name = "miSmall";
-            this.miSmall.Size = new System.Drawing.Size(119, 22);
+            this.miSmall.Index = 0;
             this.miSmall.Text = "S&mall";
+            this.miSmall.Click += new System.EventHandler(this.miSmall_Click);
             // 
             // miMedium
             // 
-            this.miMedium.Name = "miMedium";
-            this.miMedium.Size = new System.Drawing.Size(119, 22);
+            this.miMedium.Index = 1;
             this.miMedium.Text = "M&edium";
+            this.miMedium.Click += new System.EventHandler(this.miMedium_Click);
             // 
             // miLarge
             // 
-            this.miLarge.Name = "miLarge";
-            this.miLarge.Size = new System.Drawing.Size(119, 22);
+            this.miLarge.Index = 2;
             this.miLarge.Text = "L&arge";
-            // 
-            // pd
-            // 
-            this.pd.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
+            this.miLarge.Click += new System.EventHandler(this.miLarge_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.panel1);
-            this.MainMenuStrip = this.mainMenu;
+            this.Menu = this.mainMenu;
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.mainMenu.ResumeLayout(false);
-            this.mainMenu.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -206,19 +220,26 @@
         private System.Windows.Forms.Button laBtn;
         private System.Windows.Forms.Button meBtn;
         private System.Windows.Forms.Button smBtn;
-        private System.Windows.Forms.MenuStrip mainMenu;
-        private System.Windows.Forms.ToolStripMenuItem menuPrintPicture;
-        private System.Windows.Forms.ToolStripMenuItem miOpen;
-        private System.Windows.Forms.ToolStripMenuItem miPrintPreview;
-        private System.Windows.Forms.ToolStripMenuItem miPrint;
-        private System.Windows.Forms.ToolStripMenuItem miPageSetup;
-        private System.Windows.Forms.ToolStripMenuItem miExit;
-        private System.Windows.Forms.ToolStripMenuItem menuSize;
-        private System.Windows.Forms.ToolStripMenuItem miSmall;
-        private System.Windows.Forms.ToolStripMenuItem miMedium;
-        private System.Windows.Forms.ToolStripMenuItem miLarge;
-        private System.Drawing.Printing.PrintDocument pd;
+        private System.Windows.Forms.MainMenu mainMenu;
+        private System.Windows.Forms.MenuItem menuPrintPicture;
+        private System.Windows.Forms.MenuItem miOpen;
+        private System.Windows.Forms.MenuItem miPrintPreview;
+        private System.Windows.Forms.MenuItem miPrint;
+        private System.Windows.Forms.MenuItem miPageSetup;
+        private System.Windows.Forms.MenuItem miExit;
+        private System.Windows.Forms.MenuItem menuSize;
+        private System.Windows.Forms.MenuItem miSmall;
+        private System.Windows.Forms.MenuItem miMedium;
+        private System.Windows.Forms.MenuItem miLarge;
+        
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Drawing.Printing.PrinterSettings printerSettings;
+        private System.Drawing.Printing.PageSettings pageSettings;
+        private System.Windows.Forms.PrintPreviewDialog previewDlg;
+        private System.Windows.Forms.PageSetupDialog setupDlg;
+        private System.Drawing.Printing.PrintDocument printDoc;
+        private System.Windows.Forms.PrintDialog printDlg;
+        private System.Windows.Forms.MainMenu MainMenu;
     }
 }
 

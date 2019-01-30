@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
+using System.Drawing.Printing;
 
 namespace PictureEnlargement
 {
@@ -18,12 +19,7 @@ namespace PictureEnlargement
         private System.Drawing.Image curImage = null;
         private System.Drawing.Image[] pieces = null;
         private string curFileName = null;
-        private System.Drawing.Printing.PrinterSettings printerSettings;
-        private System.Drawing.Printing.PageSettings pageSettings;
-        private System.Windows.Forms.PrintPreviewDialog previewDlg;
-        private System.Windows.Forms.PageSetupDialog setupDlg;
-        private System.Drawing.Printing.PrintDocument printDoc;
-        private System.Windows.Forms.PrintDialog printDlg;
+        
         
         
         private System.Drawing.Graphics graphics = null;
@@ -49,8 +45,6 @@ namespace PictureEnlargement
         {
             InitializeComponent();            
         }
-
-
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -125,9 +119,10 @@ namespace PictureEnlargement
 
 
 
+        }
 
         
-      }
+
         private static void saveJpeg(string path, Image img)
         {
 
@@ -237,6 +232,11 @@ namespace PictureEnlargement
 
         }
 
+        private void miSmall_Click(object sender, EventArgs e)
+        {
+            smBtn.PerformClick();
+        }
+
         private void smBtn_Click(object sender, EventArgs e)
         {
             System.Environment.SpecialFolder mypics = System.Environment.SpecialFolder.MyPictures;
@@ -309,10 +309,16 @@ namespace PictureEnlargement
             }
 
 
+        }
 
+        private void miMedium_Click(object sender, EventArgs e)
+        {
+            meBtn.PerformClick();
+        }
 
-
-
+        private void miLarge_Click(object sender, EventArgs e)
+        {
+            laBtn.PerformClick();
         }
 
         private void meBtn_Click(object sender, EventArgs e)
@@ -373,7 +379,6 @@ namespace PictureEnlargement
                 graphics = System.Drawing.Graphics.FromImage(pictureBox1.Image);
                 PictureEnlargement.Form1.drawImageRectangles(graphics, thedim);
             }
-
 
         }
 
@@ -438,7 +443,7 @@ namespace PictureEnlargement
 
         }
 
-        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs ppeArgs)
+        private void printDoc_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs ppeArgs)
         {
             g = ppeArgs.Graphics;
             Font myfont = new Font("Arial", 70, FontStyle.Bold);
@@ -493,7 +498,136 @@ namespace PictureEnlargement
 
             }
 
+        }
 
+        private void miOpen_Click(object sender, EventArgs e)
+        {
+            System.Environment.SpecialFolder mypics = System.Environment.SpecialFolder.MyPictures;
+            string path = System.Environment.GetFolderPath(mypics);
+            DirectoryInfo dirInfo = new System.IO.DirectoryInfo(path + @"\CroppedPictures\");
+
+            FileInfo[] filesToDelete = dirInfo.GetFiles();
+
+            int i = 0;
+
+
+            currentNumber = 0;
+            picturecount = 0;
+            numbercount = 0;
+
+
+
+            if (filesToDelete.Length > 0)
+            {
+                for (i = 0; i < filesToDelete.Length; i++)
+                {
+                    System.IO.File.Delete(filesToDelete[i].FullName);
+                }
+            }
+
+
+            OpenFileDialog openDlg = new OpenFileDialog();
+            openDlg.Filter = "All Image files|*.bmp;*.gif;*.jpg;*.ico;" +
+                "*.emf,*.wmf|Bitmap Files(*.bmp;*.gif;*.jpg;" +
+                "*.ico)|*.bmp;*.gif;*.jpg;*.ico|" +
+                "Meta Files(*.emf;*.wmf)|*.emf;*.wmf";
+            string filter = openDlg.Filter;
+            openDlg.InitialDirectory = path;
+            openDlg.Title = "Open Image File";
+            openDlg.ShowHelp = true;
+            if (openDlg.ShowDialog() == DialogResult.OK)
+            {
+                curFileName = openDlg.FileName;
+
+            }
+
+
+            pictureBox1.Visible = false;
+            this.panel1.Show();
+
+        }
+
+        private void miPrintPreview_Click(object sender, EventArgs e)
+        {
+            currentNumber = 0;
+            picturecount = 0;
+            numbercount = 0;
+
+            if (previewDlg.ShowDialog() == DialogResult.OK)
+            {
+                printDoc.Print();
+            }
+        }
+
+        private void miPrint_Click(object sender, PrintPageEventArgs ppeArgs)
+        {
+            g = ppeArgs.Graphics;
+            Font myfont = new Font("Arial", 70, FontStyle.Bold);
+            SolidBrush blackbrush = new SolidBrush(Color.Black);
+
+
+
+
+            currentNumber += 1;
+
+
+            switch (currentNumber % 2)
+            {
+
+                case 0:
+
+                    picturecount += 1;
+
+                    if (picturecount >= numofpictures + 1)
+                    {
+                        if (numofpictures == 16 || numofpictures == 64)
+                        {
+                            ppeArgs.HasMorePages = false;
+                        }
+                        break;
+                    }
+                    else
+                    {
+                        g.DrawImage(pieces[picturecount - 1], 0, 0, curImage.Width, curImage.Height);
+                        ppeArgs.HasMorePages = true;
+                        break;
+                    }
+
+                case 1:
+
+
+                    numbercount += 1;
+                    if (numbercount >= numofpictures + 1)
+                    {
+                        if (numofpictures == 9)
+                        {
+                            ppeArgs.HasMorePages = false;
+                        }
+                        break;
+                    }
+                    else
+                    {
+                        g.DrawString((numbercount.ToString()), myfont, blackbrush, 300, 300);
+                        ppeArgs.HasMorePages = true;
+                        break;
+                    }
+
+            }
+        }
+
+        private void miPageSetup_Click(object sender, EventArgs e)
+        {
+            setupDlg.ShowDialog();
+        }
+
+        private void miExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void miPrint_Click(object sender, EventArgs e)
+        {
+            printDoc_PrintPage(this, null);
         }
     }
 }
