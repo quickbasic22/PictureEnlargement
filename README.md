@@ -10,6 +10,7 @@ check 'This Pc.Pictures' for directory after selecting picture size "C:\Users\Da
 click menu item 'Print Picture - Print'
 
 program prints on 2 side of each page.
+cut pages to picture size. (use page cutter for straight lines).
 lay out pages with number side up
 start highest number left to right bottom to top
 for small
