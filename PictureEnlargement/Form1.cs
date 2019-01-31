@@ -16,29 +16,34 @@ namespace PictureEnlargement
 {
     public partial class Form1 : Form
     {
-        private System.Drawing.Image curImage = null;
-        private System.Drawing.Image[] pieces = null;
-        private string curFileName = null;
+        public static System.Environment.SpecialFolder mypics = System.Environment.SpecialFolder.MyPictures;
+        public static string path = System.Environment.GetFolderPath(mypics);
+        DirectoryInfo dirInfo = new System.IO.DirectoryInfo(path + @"\CroppedPictures\");
+
+
+        private static System.Drawing.Image curImage = null;
+        private static System.Drawing.Image[] pieces = null;
+        private static string curFileName = null;
         
         
         
-        private System.Drawing.Graphics graphics = null;
-        private System.Drawing.Rectangle[] thedim = null;
-        private System.Drawing.Graphics g = null;
+        private static System.Drawing.Graphics graphics = null;
+        private static System.Drawing.Rectangle[] thedim = null;
+        private static System.Drawing.Graphics g = null;
 
-        private int mysize = 0;
-        private int numofpictures = 0;
+        private static int mysize = 0;
+        private static int numofpictures = 0;
 
-        private int currentNumber = 0;
+        private static int currentNumber = 0;
 
-        private int picturecount = 0;
-        private int numbercount = 0;
-
-
+        private static int picturecount = 0;
+        private static int numbercount = 0;
 
 
 
-        private System.Windows.Forms.Label infoLbl;
+
+
+        private static System.Windows.Forms.Label infoLbl;
         
                 
         public Form1()
@@ -48,18 +53,14 @@ namespace PictureEnlargement
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            System.Environment.SpecialFolder mypics = System.Environment.SpecialFolder.MyPictures;
-            string path = System.Environment.GetFolderPath(mypics);
+            
 
-            DirectoryInfo dirInfo = new System.IO.DirectoryInfo(path + @"\CroppedPictures\");
-
+            
             if (!dirInfo.Exists)
             {
                 DirectoryInfo mydirCreate = System.IO.Directory.CreateDirectory(path + @"\CroppedPictures\");
             }
-
-            System.Console.WriteLine("The Form Loaded");
-
+            
             FileInfo[] filesToDelete = dirInfo.GetFiles();
 
             int i = 0;
@@ -115,10 +116,10 @@ namespace PictureEnlargement
                 saveJpeg(path + @"\CroppedPictures\" + curFileName.Substring(start, end) + i + ".jpg", imagefile);
             }
 
-
-
-
-
+           
+            this.Visible = true;
+            this.WindowState = FormWindowState.Maximized;
+                                                         
         }
 
         
@@ -217,7 +218,7 @@ namespace PictureEnlargement
 
         private static void drawImageRectangles(Graphics graphics, Rectangle[] rect)
         {
-            Pen mypen = new System.Drawing.Pen(System.Drawing.Color.Blue, 4);
+            Pen mypen = new System.Drawing.Pen(System.Drawing.Color.BlueViolet, 4);
 
             int i = 0;
 
@@ -234,14 +235,24 @@ namespace PictureEnlargement
 
         private void miSmall_Click(object sender, EventArgs e)
         {
+            FileInfo[] filesToDelete = dirInfo.GetFiles();
+
+            int i = 0;
+
+            if (filesToDelete.Length > 0)
+            {
+                for (i = 0; i < filesToDelete.Length; i++)
+                {
+                    System.IO.File.Delete(filesToDelete[i].FullName);
+                }
+            }
+
             smBtn.PerformClick();
         }
 
         private void smBtn_Click(object sender, EventArgs e)
         {
-            System.Environment.SpecialFolder mypics = System.Environment.SpecialFolder.MyPictures;
-            string path = System.Environment.GetFolderPath(mypics);
-
+            //pictureBox1.SetBounds(300, 0, 1200, 900);
             int i = 0;
             miSmall.Checked = true;
             miMedium.Checked = false;
@@ -313,19 +324,42 @@ namespace PictureEnlargement
 
         private void miMedium_Click(object sender, EventArgs e)
         {
+            FileInfo[] filesToDelete = dirInfo.GetFiles();
+
+            int i = 0;
+
+            if (filesToDelete.Length > 0)
+            {
+                for (i = 0; i < filesToDelete.Length; i++)
+                {
+                    System.IO.File.Delete(filesToDelete[i].FullName);
+                }
+            }
+
             meBtn.PerformClick();
         }
 
         private void miLarge_Click(object sender, EventArgs e)
         {
+            FileInfo[] filesToDelete = dirInfo.GetFiles();
+
+            int i = 0;
+
+            if (filesToDelete.Length > 0)
+            {
+                for (i = 0; i < filesToDelete.Length; i++)
+                {
+                    System.IO.File.Delete(filesToDelete[i].FullName);
+                }
+            }
+
             laBtn.PerformClick();
         }
 
         private void meBtn_Click(object sender, EventArgs e)
         {
-            System.Environment.SpecialFolder mypics = System.Environment.SpecialFolder.MyPictures;
-            string path = System.Environment.GetFolderPath(mypics);
 
+            //pictureBox1.SetBounds(300, 0, 1200, 900);
             int i = 0;
             miSmall.Checked = false;
             miMedium.Checked = true;
@@ -384,8 +418,7 @@ namespace PictureEnlargement
 
         private void laBtn_Click(object sender, EventArgs e)
         {
-            System.Environment.SpecialFolder mypics = System.Environment.SpecialFolder.MyPictures;
-            string path = System.Environment.GetFolderPath(mypics);
+            //pictureBox1.SetBounds(300, 0, 1200, 900);
             int i = 0;
             miSmall.Checked = false;
             miMedium.Checked = false;
@@ -443,69 +476,10 @@ namespace PictureEnlargement
 
         }
 
-        private void printDoc_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs ppeArgs)
-        {
-            g = ppeArgs.Graphics;
-            Font myfont = new Font("Arial", 70, FontStyle.Bold);
-            SolidBrush blackbrush = new SolidBrush(Color.Black);
-
-
-
-
-            currentNumber += 1;
-
-
-            switch (currentNumber % 2)
-            {
-
-                case 0:
-
-                    picturecount += 1;
-
-                    if (picturecount >= numofpictures + 1)
-                    {
-                        if (numofpictures == 16 || numofpictures == 64)
-                        {
-                            ppeArgs.HasMorePages = false;
-                        }
-                        break;
-                    }
-                    else
-                    {
-                        g.DrawImage(pieces[picturecount - 1], 0, 0, curImage.Width, curImage.Height);
-                        ppeArgs.HasMorePages = true;
-                        break;
-                    }
-
-                case 1:
-
-
-                    numbercount += 1;
-                    if (numbercount >= numofpictures + 1)
-                    {
-                        if (numofpictures == 9)
-                        {
-                            ppeArgs.HasMorePages = false;
-                        }
-                        break;
-                    }
-                    else
-                    {
-                        g.DrawString((numbercount.ToString()), myfont, blackbrush, 300, 300);
-                        ppeArgs.HasMorePages = true;
-                        break;
-                    }
-
-            }
-
-        }
-
+        
         private void miOpen_Click(object sender, EventArgs e)
         {
-            System.Environment.SpecialFolder mypics = System.Environment.SpecialFolder.MyPictures;
-            string path = System.Environment.GetFolderPath(mypics);
-            DirectoryInfo dirInfo = new System.IO.DirectoryInfo(path + @"\CroppedPictures\");
-
+           
             FileInfo[] filesToDelete = dirInfo.GetFiles();
 
             int i = 0;
@@ -559,8 +533,38 @@ namespace PictureEnlargement
             }
         }
 
-        private void miPrint_Click(object sender, PrintPageEventArgs ppeArgs)
+        private void miPageSetup_Click(object sender, EventArgs e)
         {
+            if (setupDlg.ShowDialog() == DialogResult.OK)
+            {
+                
+            }
+                
+        }
+
+        private void miExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void miPrint_Click(object sender, EventArgs e)
+        {
+            if (printDlg.ShowDialog() == DialogResult.OK)
+                printDoc.Print();
+        }
+
+        private void printDoc_PrintPage(object sender, PrintPageEventArgs ppeArgs)
+        {
+            if (printerSettings.CanDuplex)
+            {
+               pageSettings.PrinterSettings.Duplex = System.Drawing.Printing.Duplex.Horizontal;
+                printerSettings.Duplex = System.Drawing.Printing.Duplex.Horizontal;
+            }
+            else
+            {
+                pageSettings.PrinterSettings.Duplex = System.Drawing.Printing.Duplex.Simplex;
+                printerSettings.Duplex = System.Drawing.Printing.Duplex.Simplex;
+            }
             g = ppeArgs.Graphics;
             Font myfont = new Font("Arial", 70, FontStyle.Bold);
             SolidBrush blackbrush = new SolidBrush(Color.Black);
@@ -580,11 +584,8 @@ namespace PictureEnlargement
 
                     if (picturecount >= numofpictures + 1)
                     {
-                        if (numofpictures == 16 || numofpictures == 64)
-                        {
-                            ppeArgs.HasMorePages = false;
-                        }
-                        break;
+                         ppeArgs.HasMorePages = false;
+                         break;
                     }
                     else
                     {
@@ -599,10 +600,7 @@ namespace PictureEnlargement
                     numbercount += 1;
                     if (numbercount >= numofpictures + 1)
                     {
-                        if (numofpictures == 9)
-                        {
-                            ppeArgs.HasMorePages = false;
-                        }
+                        ppeArgs.HasMorePages = false;
                         break;
                     }
                     else
@@ -613,21 +611,6 @@ namespace PictureEnlargement
                     }
 
             }
-        }
-
-        private void miPageSetup_Click(object sender, EventArgs e)
-        {
-            setupDlg.ShowDialog();
-        }
-
-        private void miExit_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void miPrint_Click(object sender, EventArgs e)
-        {
-            printDoc_PrintPage(this, null);
         }
     }
 }

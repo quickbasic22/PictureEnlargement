@@ -32,9 +32,11 @@ namespace PictureEnlargement
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            this.pageSettings = new System.Drawing.Printing.PageSettings();
+            this.printerSettings = new System.Drawing.Printing.PrinterSettings();
             this.previewDlg = new System.Windows.Forms.PrintPreviewDialog();
-            this.setupDlg = new System.Windows.Forms.PageSetupDialog();
             this.printDoc = new System.Drawing.Printing.PrintDocument();
+            this.setupDlg = new System.Windows.Forms.PageSetupDialog();
             this.printDlg = new System.Windows.Forms.PrintDialog();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -55,45 +57,35 @@ namespace PictureEnlargement
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
+
+            this.pageSettings.Margins.Bottom = 0;
+            this.pageSettings.Margins.Top = 0;
+            this.pageSettings.Margins.Left = 0;
+            this.pageSettings.Margins.Right = 0;
+            this.pageSettings.Color = true;
+            this.pageSettings.PrinterSettings.Collate = false;
+            this.pageSettings.PrinterSettings.Copies = 1;
+            this.pageSettings.Landscape = false;
+            this.pageSettings.PrinterSettings.Duplex = System.Drawing.Printing.Duplex.Horizontal;
+
+
+            this.printDlg.PrinterSettings = this.pageSettings.PrinterSettings;
+            this.printDoc.PrinterSettings = this.pageSettings.PrinterSettings;
+            this.setupDlg.PrinterSettings = this.pageSettings.PrinterSettings;
+                        
+
+
             // 
             // previewDlg
             // 
-            pageSettings = new System.Drawing.Printing.PageSettings();
-            pageSettings.Margins.Bottom = 0;
-            pageSettings.Margins.Left = 0;
-            pageSettings.Margins.Right = 0;
-            pageSettings.Margins.Top = 0;
-            pageSettings.Landscape = true;
-
-            printDlg.PrinterSettings = printerSettings;
-            printDoc.DocumentName = "Picture Upsize Print";
-            printDoc.DefaultPageSettings = pageSettings;
-            printDoc.DefaultPageSettings.PrinterSettings = printerSettings;
-
-            setupDlg.AllowMargins = true;
-            setupDlg.AllowOrientation = true;
-            setupDlg.AllowPaper = true;
-            setupDlg.AllowPrinter = true;
-            setupDlg.Document = printDoc;
-
-
-
-            printDoc.DefaultPageSettings = setupDlg.PageSettings;
-            printDoc.PrinterSettings = setupDlg.PrinterSettings;
-            printDlg.Document = printDoc;
-
-            previewDlg.Name = "Print Picture Upsize Preview";
-            previewDlg.Document = printDoc;
-            previewDlg.WindowState = FormWindowState.Normal;
-            previewDlg.UseAntiAlias = true;
-
-          
             this.previewDlg.AutoScrollMargin = new System.Drawing.Size(0, 0);
             this.previewDlg.AutoScrollMinSize = new System.Drawing.Size(0, 0);
             this.previewDlg.ClientSize = new System.Drawing.Size(400, 300);
+            this.previewDlg.Document = this.printDoc;
             this.previewDlg.Enabled = true;
             this.previewDlg.Icon = ((System.Drawing.Icon)(resources.GetObject("previewDlg.Icon")));
             this.previewDlg.Name = "previewDlg";
+            this.previewDlg.UseAntiAlias = true;
             this.previewDlg.Visible = false;
             // 
             // printDoc
@@ -101,14 +93,33 @@ namespace PictureEnlargement
             this.printDoc.DocumentName = "Picture Upsize Print";
             this.printDoc.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDoc_PrintPage);
             // 
+            // setupDlg
+            // 
+            this.setupDlg.Document = this.printDoc;
+            this.setupDlg.AllowMargins = true;
+            this.setupDlg.AllowOrientation = true;
+            this.setupDlg.AllowPaper = true;
+            this.setupDlg.AllowPrinter = true;
+           
+            // 
+            // printDlg
+            // 
+            this.printDlg.Document = this.printDoc;
+            this.printDlg.AllowCurrentPage = true;
+            this.printDlg.AllowSelection = true;
+            this.printDlg.AllowSomePages = true;
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1000, 800);
+            this.pictureBox1.Size = new System.Drawing.Size(1200, 900);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Visible = false;
+            // mainMenu
+            
+        
             // 
             // panel1
             // 
@@ -155,6 +166,8 @@ namespace PictureEnlargement
             this.mainMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.menuPrintPicture,
             this.menuSize});
+            this.mainMenu.Name = "MainMenu";
+            
             // 
             // menuPrintPicture
             // 
@@ -166,6 +179,8 @@ namespace PictureEnlargement
             this.miPrintPreview,
             this.miExit});
             this.menuPrintPicture.Text = "Print Picture";
+            this.menuPrintPicture.Name = "Print Picture";
+           
             // 
             // miOpen
             // 
@@ -226,20 +241,19 @@ namespace PictureEnlargement
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1200, 800);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.panel1);
             this.Menu = this.mainMenu;
             this.Name = "Form1";
             this.Text = "Form1";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
-        }
+        } 
 
         #endregion
 
